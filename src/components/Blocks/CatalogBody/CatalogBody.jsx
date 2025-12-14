@@ -17,16 +17,17 @@ export function CatalogBody() {
     const [lastLength, setLastLength] = useState(0);
     const { getProducts, getCategories } = useGetData();
     const shownCards = 6;
+
     const classCategories = "catalog-categories nav justify-content-center";
 
-    const categoryLoading = () => {
-        setLoadingError(null);
-
+    const categoriesLoading = () => {
+        setLoadingError(null);        
+        
         getCategories()
-        .then((data) => {
-            setCategories(data);
-        })
-        .catch((error) => customError(error));
+            .then((data) => {
+                setCategories(data);
+            })
+            .catch((error) => customError(error));
     }
 
     const productsLoading = () => {
@@ -49,41 +50,41 @@ export function CatalogBody() {
                 .catch((error) => customError(error));
         }
     }
-
-    useEffect(() => {
-        categoryLoading();
+    
+    useEffect(() => {       
+        categoriesLoading();
     }, []);
 
     useEffect(() => {
         productsLoading();
     }, [searchParams]);
 
-    function handleLoadMoreBtnClick(){
-        const prevSeachParams = Object.fromEntries(searchParams.entries());
+    function handleLoadMoreBtnClick() {
+        const prevSearchParams = Object.fromEntries(searchParams.entries());
         const currentOffset = searchParams.get('offset');
         const offset = currentOffset ? Number(currentOffset) + shownCards : shownCards;
 
-        setSearchParams({ ...prevSeachParams, offset });
+        setSearchParams({ ...prevSearchParams, offset });
     }
 
-    function handleRepeatBtnClick(){
-        if (!categories){
-            categoryLoading();
+    function handleRepeatBtnClick() {
+        if (!categories) {
+            categoriesLoading();
         }
         productsLoading();
     }
 
     const customError = (error) => {
-        if (error == 'Failed to fetch'){
-            setLoadingError('Что-то сломалось...');
+        if (error == "Failed to fetch") {
+            setLoadingError("Что-то пошло не так...");
         } else {
             setLoadingError(error);
         }
-    }
+    }    
 
     const offset = searchParams.get('offset');
 
-    const categoriesAll = [{ id: 999, title: "Все" }, ...categories];
+    const categoriesAll = [{ id: 999999, title: "Все" }, ...categories];
 
     let catalogBodyData;
 
@@ -99,10 +100,10 @@ export function CatalogBody() {
                 ? 'block'
                 : 'none'
     };
-    
+
     const loadMoreButton = <LoadMoreBtn
-    btnStyle={loadMoreButtonStyle}
-    onButtonClock={handleLoadMoreBtnClick}
+        btnStyle={loadMoreButtonStyle}
+        onButtonClick={handleLoadMoreBtnClick}
     />
 
     const errorView = loadingError && (

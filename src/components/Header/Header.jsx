@@ -2,7 +2,6 @@ import { Logo } from "../UI/Logo/Logo";
 import { MenuHeader } from "../Blocks/MenuHeader/MenuHeader";
 import { Controls } from "../Blocks/Controls/Controls";
 import { menuItemsHeader } from "../../data/constData";
-import "./Header.css";
 
 // шапка интернет-страницы
 // содержит логотип, строку меню и управляющие кнопки (поиск и значок корзины)
